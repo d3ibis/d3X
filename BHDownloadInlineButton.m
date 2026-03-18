@@ -144,8 +144,8 @@ static void _bh_callSuperIfPossible(__unsafe_unretained id self,
 
 #pragma mark ••• Inline‑action metrics (instance + class)
 #define BH_METRIC(name, value) \
-    - (typeof(value))name { return value; } \
-    + (typeof(value))name { return value; }
+    - (NSUInteger)name { return (NSUInteger)(value); } \
+    + (NSUInteger)name { return (NSUInteger)(value); }
 
 BH_METRIC(extraWidth,                 40.0)
 BH_METRIC(extraWidthWithStyle,        40.0)
