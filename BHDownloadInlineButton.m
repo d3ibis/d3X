@@ -142,21 +142,37 @@ static void _bh_callSuperIfPossible(__unsafe_unretained id self,
     return CGRectContainsPoint(UIEdgeInsetsInsetRect(self.bounds, self.hitTestEdgeInsets), pt);
 }
 
-#pragma mark ••• Inline‑action metrics (instance + class)
-#define BH_METRIC(name, value) \
+#pragma mark ••• Inline��action metrics (instance + class)
+
+#define BH_METRIC_UINTEGER(name, value) \
     - (NSUInteger)name { return (NSUInteger)(value); } \
     + (NSUInteger)name { return (NSUInteger)(value); }
 
-BH_METRIC(extraWidth,                 40.0)
-BH_METRIC(extraWidthWithStyle,        40.0)
-BH_METRIC(trailingEdgeInset,          6.0)
-BH_METRIC(visibility,                 1)
-BH_METRIC(alternateInlineActionType,  6)
-BH_METRIC(touchInsetPriority,         2)
-BH_METRIC(shouldShowCount,            NO)
-BH_METRIC(displayType,                0)
+#define BH_METRIC_DOUBLE(name, value) \
+    - (double)name { return (double)(value); } \
+    + (double)name { return (double)(value); }
 
-#undef BH_METRIC
+#define BH_METRIC_CGFLOAT(name, value) \
+    - (CGFloat)name { return (CGFloat)(value); } \
+    + (CGFloat)name { return (CGFloat)(value); }
+
+#define BH_METRIC_BOOL(name, value) \
+    - (BOOL)name { return (BOOL)(value); } \
+    + (BOOL)name { return (BOOL)(value); }
+
+BH_METRIC_DOUBLE(extraWidth,                  40.0)
+BH_METRIC_DOUBLE(extraWidthWithStyle,         40.0)
+BH_METRIC_CGFLOAT(trailingEdgeInset,          6.0)
+BH_METRIC_UINTEGER(visibility,                1)
+BH_METRIC_UINTEGER(alternateInlineActionType, 6)
+BH_METRIC_UINTEGER(touchInsetPriority,        2)
+BH_METRIC_BOOL(shouldShowCount,               NO)
+BH_METRIC_UINTEGER(displayType,               0)
+
+#undef BH_METRIC_UINTEGER
+#undef BH_METRIC_DOUBLE
+#undef BH_METRIC_CGFLOAT
+#undef BH_METRIC_BOOL
 
 #pragma mark ••• Download handler
 - (void)DownloadHandler:(UIButton *)sender {
@@ -209,7 +225,7 @@ BH_METRIC(displayType,                0)
         if (isSlideShow) {
             T1SlideshowStatusView *slide = self.delegate.delegate;
             for (TFSTwitterEntityMediaVideoVariant *variant in slide.media.videoInfo.variants) {
-                if ([variant.contentType isEqualToString:@"video/mp4"])          [actions addObject:makeMP4Item([NSURL URLWithString:variant.url])];
+                if ([variant.contentType isEqualToString:@"video/mp4"])             [actions addObject:makeMP4Item([NSURL URLWithString:variant.url])];
                 if ([variant.contentType isEqualToString:@"application/x-mpegURL"]) [actions addObject:makeM3U8Item([NSURL URLWithString:variant.url])];
             }
         } else {
@@ -220,7 +236,7 @@ BH_METRIC(displayType,                0)
                         TFNActionItem *videoGroup = [objc_getClass("TFNActionItem") actionItemWithTitle:[NSString stringWithFormat:@"Video %lu", (unsigned long)idx + 1]
                                                                                            imageName:@"arrow_down_circle_stroke" action:^{
                             for (TFSTwitterEntityMediaVideoVariant *variant in obj.videoInfo.variants) {
-                                if ([variant.contentType isEqualToString:@"video/mp4"])          [innerActions addObject:makeMP4Item([NSURL URLWithString:variant.url])];
+                                if ([variant.contentType isEqualToString:@"video/mp4"])             [innerActions addObject:makeMP4Item([NSURL URLWithString:variant.url])];
                                 if ([variant.contentType isEqualToString:@"application/x-mpegURL"]) [innerActions addObject:makeM3U8Item([NSURL URLWithString:variant.url])];
                             }
                             TFNMenuSheetViewController *inner = [[objc_getClass("TFNMenuSheetViewController") alloc] initWithActionItems:innerActions.copy];
@@ -232,7 +248,7 @@ BH_METRIC(displayType,                0)
             } else if (mediaEntities.firstObject) {
                 TFSTwitterEntityMedia *first = mediaEntities.firstObject;
                 for (TFSTwitterEntityMediaVideoVariant *variant in first.videoInfo.variants) {
-                    if ([variant.contentType isEqualToString:@"video/mp4"])          [actions addObject:makeMP4Item([NSURL URLWithString:variant.url])];
+                    if ([variant.contentType isEqualToString:@"video/mp4"])             [actions addObject:makeMP4Item([NSURL URLWithString:variant.url])];
                     if ([variant.contentType isEqualToString:@"application/x-mpegURL"]) [actions addObject:makeM3U8Item([NSURL URLWithString:variant.url])];
                 }
             }
